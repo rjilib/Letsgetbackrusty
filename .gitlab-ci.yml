@@ -5,30 +5,29 @@ image: "rust:latest"
 before_script:
    - apt-get update
 
-stage: 
-    - build
-    - test
+stages: 
+  - build
+  - test
 
 # Use cargo to test the project
 build bin:
   stage: build
-    script: 
-      - rustc --version && cargo --version
-      - cargo build
+  script: 
+    - rustc --version && cargo --version
+    - cargo build
   artifacts:
     paths:
       - build
 
 test unit:
   stage: test
-    script:
-      - cargo test --lib
+  script:
+    - cargo test --lib
   when: on_success
 
 smoke test:
   stage: test
-    script:
-      - cargo run
-      - curl -X GET http://127.0.0.1/check
+  script:
+    - cargo run
+    - curl -X GET http://127.0.0.1/check
   when: on_success
-   
